@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>{{ 'Alterar' if pessoa else 'Incluir'}} Pessoa</h2>
+    <form class="w3-container w3-form" method="post">
+        <label for="nome">Nome: </label>
+        <input id="nome" name="nome" class="w3-input" value="{{ form.nome }}">
+        <label for="email">E-mail: </label>
+        <input id="email" name="email" class="w3-input" value="{{ form.email }}">
+        <button class="w3-button w3-green w3-section">Enviar</button>
+    </form>
+    {% if pessoa %}
+    <h3>Incluir Telefone</h3>
+    <div class="w3=row">
+        <div class="w3-half">
+            <ul class="w3-ul w3-card">
+                {% for tel in pessoa.telefones %}
+                <li>
+                    {{ tel.numero }} 
+                    <a href="{{ url_for('deletar_telefone', id=tel.id) }}" class="w3-button w3-round w3-red w3-tiny">&times;</a>
+                </li>
+                {% else %}
+                <li class="w3-red">Sem telefone cadastrado</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="w3-half">
+            <form class="w3-container w3-form" method="post" action="{{ url_for('inserir_telefone', id_pessoa = pessoa.id) }}">
+                <label for="telefone">Telefone: </label>
+                <input id="telefone" name="telefone" class="w3-input">
+                <button class="w3-button w3-green w3-section">Enviar</button>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

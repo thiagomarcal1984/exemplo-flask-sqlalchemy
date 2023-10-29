@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask com SQLAlchemy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='reset.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='w3.css')}}">
+</head>
+<body>
+    <div class="w3-container w3-indigo">
+        <h1>My Fucking Site</h1>
+    </div>
+    <div class="w3-bar w3-purple">
+        <a class="w3-bar-item w3-button" href="{{ url_for('pessoas') }}">Pessoas</a>
+        {% if debug %}
+        <a class="w3-bar-item w3-button" href="{{ url_for('reset') }}">Resetar</a>
+        {% endif %}
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="w3-ul w3-container w3-section">
+        {% for category, message in messages %}
+            {% if category == 'error'%} 
+                {% set cor = 'red' %}
+            {% elif category == 'success' %}
+                {% set cor = 'green' %}
+            {% else %}
+                {% set cor = 'pale-yellow' %}
+            {% endif %}
+            <li class="w3-{{cor}}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+    <div class="w3-container w3-margin-bottom">
+    {% block content%}
+    {% endblock %}
+    </div>
+    <script>
+        function aplicarClasses(seletor, classes) {
+            document.querySelectorAll(seletor).forEach(el => {
+                classes.forEach(cl => {
+                    el.classList.add(cl)
+                })
+            })
+        }
+
+        function aplicarEstilos(seletor, estilos) {
+            document.querySelectorAll(seletor).forEach(el => {
+                for (const [estilo, valor] of Object.entries(estilos)) {
+                    el.style[estilo] = valor
+                }
+            })
+        }
+
+        aplicarClasses('.botao', [
+            'w3-button',
+            'w3-border',
+            'w3-border-gray',
+            'w3-hover-pale-green',
+        ])
+
+        aplicarClasses('.cartao', [
+            'w3-card',
+            'w3-hover-shadow'
+        ])
+
+        aplicarClasses('.cartao .botao', [
+            'w3-hover-pale-yellow',
+            'w3-hover-border-black',
+        ])    
+        
+        aplicarEstilos('.cartao', {
+            "min-height": "21em",
+            "background-color": "21em",
+        })
+    </script>
+</body>
+</html>

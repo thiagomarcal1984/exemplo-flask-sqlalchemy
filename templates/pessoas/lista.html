@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Pessoas</h2>
+    <a href="{{ url_for('inserir_pessoa') }}" class="botao w3-green">New</a>
+    <section class="w3-row">
+    {% for pessoa in pessoas %}
+        <div class="w3-quarter w3-padding">
+            <div class="cartao">
+                <a href="{{ url_for('atualizar_pessoa', id=pessoa.id) }}" class="botao w3-half w3-deep-purple">Upd</a>
+                <a href="{{ url_for('deletar_pessoa', id=pessoa.id) }}" class="botao w3-half w3-red">Del</a>
+                <div class="w3-container">
+                    <h2>{{ pessoa.nome }}</h2>
+
+                    <ul class="w3-ul w3-border">
+                        {% for tel in pessoa.telefones %}
+                        <li>
+                            <a href="{{ url_for('deletar_telefone', id=tel.id) }}" class="w3-button w3-round w3-red w3-tiny">&times;</a>
+                            {{ '%s-%s' % (tel.numero[:-4], tel.numero[-4:]) }} 
+                        </li>
+                        {% else %}
+                        <li class="w3-red">Sem telefone cadastrado</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </section>
+{% endblock %}
